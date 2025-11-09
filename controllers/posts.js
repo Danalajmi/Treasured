@@ -13,7 +13,7 @@ exports.post_index_get = async (req, res) => {
   res.render('posts/index.ejs', { posts });
 };
 
-// Show post 
+// Add post
 exports.post_create_get = async (req, res) => {
   res.render('posts/new.ejs');
 };
@@ -37,3 +37,13 @@ exports.post_create_post = [
     
   }
 ];
+
+
+
+// Show post
+exports.post_show_get = async (req, res) => {
+  const post = await Post.findById(req.params.postId).populate('creator');
+  const userHasLiked = post.likedBy.some((user) =>
+  user.equals(req.session.user._id));
+  res.render('posts/show.ejs', {post , userHasLiked})
+}

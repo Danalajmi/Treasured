@@ -36,7 +36,8 @@ app.use('/auth', authController)
 
 app.get("/", (req, res) => {
   res.redirect("/posts"); 
-});
+
+})
 
 app.use("/posts", postRouter);
 
