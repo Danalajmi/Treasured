@@ -25,6 +25,6 @@ exports.comment_new_post = async (req,res) => {
 }
 
 exports.comment_delete = async (req,res) => {
-  Comment.deleteOne()
-
+  await Comment.findByIdAndDelete(req.params.commentID)
+  res.redirect('/posts/')
 }
