@@ -7,6 +7,10 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 const session = require('express-session');
+const MongoStore = require('connect-mongo')
+const isSignedIn = require('./middleware/is-signed-in.js')
+const passUserToView = require('./middleware/pass-user-to-view.js')
+const authRouter = require('./routes/auth.js')
 
 
 const postRouter = require("./routes/posts");
@@ -17,7 +21,6 @@ const { connected } = require("process");
 
 const port = process.env.PORT || 3000;
 
-const authController = require('./controllers/auth.js')
 
 mongoose.connect(process.env.MONGODB_URI)
 
@@ -34,25 +37,30 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
+    }),
   })
 )
 
+app.use(passUserToView)
 
-app.get('/', async (req,res) => {
-  res.render('index.ejs', {
-    user: req.session.user,
-  })
-})
 
-app.use('/auth', authController)
 
 app.get("/", (req, res) => {
   res.redirect("/posts");
-
 })
 
+app.get('/', (req, res) => {
+  res.render('index.ejs')
+})
+
+app.use('/auth', authRouter)
+
+app.use(isSignedIn)
+
 app.use("/posts", postRouter);
-app.use("/posts/:postID/comments", commentRouter)
+app.use('/posts/:postID/comments', commentRouter)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
