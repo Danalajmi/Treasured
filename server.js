@@ -1,4 +1,3 @@
-
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
@@ -14,6 +13,8 @@ const morgan = require("morgan");
 const session = require('express-session');
 const passUserToView = require('./middleware/pass-user-to-view');
 const isSignedIn = require('./middleware/is-signed-in');
+const MongoStore = require('connect-mongo')
+const authRouter = require('./routes/auth.js')
 
 
 const postRouter = require("./routes/posts");
@@ -39,26 +40,28 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
+    }),
   })
 )
 
 app.use(passUserToView);
 
-app.get('/', async (req,res) => {
-  res.render('index.ejs', {
-    user: req.session.user,
-  })
-})
 
-app.use('/auth', authController)
 
-app.get("/", (req, res) => {
-  res.redirect("/posts");
-
+app.get('/', (req, res) => {
+  res.render('index.ejs')
 })
 
 app.use(isSignedIn)
 app.use("/posts", postRouter);
+
+app.use('/auth', authRouter)
+
+app.get("/vip-lounge", isSignedIn, (req, res) => {
+  res.send(`Welcome to the Party ${req.session.user.username}.`)
+});
 
 
 app.listen(port, () => {
