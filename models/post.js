@@ -19,7 +19,7 @@ const postSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['Songs', 'movies','shows', 'pets', 'moment', 'food','quote'],
+    enum: ['songs', 'Movies', 'Pets', 'Moment', 'Food','Quote', 'shows'],
     required: true,
   },
   likedBy: [
