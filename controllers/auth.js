@@ -36,7 +36,7 @@ exports.auth_signin_post = async (req, res) => {
   )
   if (!validPassword) return res.send("Login failed, please try again.")
 
-  req.session.user = { username: userInDatabase.username }
+  req.session.user = { username: userInDatabase.username, _id: userInDatabase._id }
   req.session.save(() => {
     res.redirect("/posts")
   })

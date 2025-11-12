@@ -35,6 +35,7 @@ mongoose.connection.on('connected', () => {
 app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   session({
@@ -63,8 +64,8 @@ app.use('/auth', authRouter)
 
 
 
-app.use(isSignedIn)
-app.use("/posts", postRouter);
+
+app.use("/posts",isSignedIn, postRouter);
 app.use('/posts/:postID/comments', commentRouter)
 
 app.listen(port, () => {

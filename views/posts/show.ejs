@@ -3,29 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/stylesheets/showEdit.css" />
   <title><%= post.title %></title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
 
   <div class= "show-page-container">
-    <%if (post.category !== post.image && 'quote') { %>
+    <% if (post.category !== 'quote' && post.image) { %>
       <div class="show-img">
-        <img src="<%= post.image %>" alt=""/>
+        <img src="<%= post.image %>" alt="<%= post.title %>" style="width:100%; height: 100%; object-fit: cover;"/>
       </div>
     <% } %>
 
     <div class= "show-info-container">
       <div class="show-header">
         <h1><%= post.title %></h1>
-        <p><b>Category:</b> <%= post.category %></p>
+        <h3>Category: <%= post.category %></h3>
       </div>
 
       <div class= "show-details-container">
-        <p><b>By:</b>
+        <h3>By:
         <%= post.creator.username %>
-        </p>
+        </h3>
         <p> <%= post.description %></p>
       </div>
 
@@ -38,11 +38,15 @@
           <div class="like-btn-container">
             <%if (userHasLiked) { %>
             <form action="/posts/<%= post._id %>/likes/<%= user._id %>?_method=DELETE" method="POST">
-              <button type="submit">Unlike</button>
+              <button class="round-btn like-btn liked" type="submit">
+                <span class="heart-icon"></span> Unlike
+              </button>
             </form>
             <% } else { %>
             <form action="/posts/<%= post._id %>/likes/<%= user._id %>" method="POST">
-              <button type="submit">Like</button>
+              <button class="round-btn like-btn" type="submit">
+                <span class="heart-icon"></span>Like
+              </button>
             </form>
             <% } %>
           </div>
@@ -52,12 +56,14 @@
       </div>
 
       <div class="comments-container">
-        <a href="/posts/ <%= post._id %>/comments">
+        <a class="round-btn comment-btn" href="/posts/<%= post._id %>/comments">
+          <span class="comment-icon"></span>
           <%= post.comments ? post.comments.length : 0 %> Comments
         </a>
       </div>
+
       <% if (post.creator._id.equals(user._id)) { %>
-      <div>
+      <div class="creator-container" style="margin-top: 10px;">
         <a href="/posts/<%= post._id %>/edit">Edit</a>
         <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
           <button type="submit">Delete</button>
