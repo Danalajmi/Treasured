@@ -19,6 +19,8 @@ const { connected } = require("process");
 
 const port = process.env.PORT || 3000;
 
+
+
 const authController = require('./controllers/auth.js')
 
 mongoose.connect(process.env.MONGODB_URI)
@@ -30,6 +32,8 @@ mongoose.connection.on('connected', () => {
 app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride("_method")); 
 app.use(morgan("dev")); 
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(
   session({
@@ -53,10 +57,6 @@ app.get('/', (req, res) => {
 app.use("/posts", postRouter);
 
 app.use('/auth', authRouter)
-
-app.get("/vip-lounge", isSignedIn, (req, res) => {
-  res.send(`Welcome to the Party ${req.session.user.username}.`)
-});
 
 
 app.listen(port, () => {
