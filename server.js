@@ -34,6 +34,7 @@ mongoose.connection.on('connected', () => {
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   session({
@@ -54,8 +55,7 @@ app.get('/', (req, res) => {
   res.render('index.ejs')
 })
 
-app.use(isSignedIn)
-app.use("/posts", postRouter);
+app.use("/posts",isSignedIn, postRouter);
 
 app.use('/auth', authRouter)
 
