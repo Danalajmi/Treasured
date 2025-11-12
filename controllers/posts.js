@@ -35,7 +35,10 @@ exports.post_create_post = [
 
     res.redirect("/posts")
   },
-]
+];
+
+
+
 
 // Show post
 exports.post_show_get = async (req, res) => {

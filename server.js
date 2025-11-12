@@ -18,12 +18,13 @@ const authRouter = require('./routes/auth.js')
 
 
 const postRouter = require("./routes/posts");
+const commentRouter = require("./routes/comments")
+
 const { connected } = require("process");
 
 
 const port = process.env.PORT || 3000;
 
-const authController = require('./controllers/auth.js')
 
 mongoose.connect(process.env.MONGODB_URI)
 
@@ -31,7 +32,7 @@ mongoose.connection.on('connected', () => {
   console.log(`connected to mongoDB ${mongoose.connection.name}.`)
 })
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -51,18 +52,21 @@ app.use(passUserToView);
 
 
 
+app.get("/", (req, res) => {
+  res.redirect("/posts");
+})
+
 app.get('/', (req, res) => {
   res.render('index.ejs')
 })
 
-app.use("/posts",isSignedIn, postRouter);
-
 app.use('/auth', authRouter)
 
-app.get("/vip-lounge", isSignedIn, (req, res) => {
-  res.send(`Welcome to the Party ${req.session.user.username}.`)
-});
 
+
+
+app.use("/posts",isSignedIn, postRouter);
+app.use('/posts/:postID/comments', commentRouter)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
