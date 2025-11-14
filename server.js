@@ -23,6 +23,11 @@ const { connected } = require("process")
 
 const port = process.env.PORT || 3000
 
+
+const authController = require('./controllers/auth.js')
+
+
+
 mongoose.connect(process.env.MONGODB_URI)
 
 mongoose.connection.on("connected", () => {
