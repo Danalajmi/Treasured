@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/auth.css">
     <title>Sign In</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
   <body>
+    <%- include('../partials/_navbar.ejs') %>
     <h1>Sign in</h1>
     <form action="/auth/sign-in" method="POST">
       <label for="username">Username:</label>
