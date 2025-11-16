@@ -8,7 +8,7 @@ h1 {
 
 .post-btn {
   display: block;
-  margin-bottom: 40px; 
+  margin-bottom: 40px;
   margin-left: auto;
   margin-right: 30px;
   background-color: #b6a6b5;
@@ -32,7 +32,7 @@ h1 {
 
 .post-card {
   background-color: #b6a6b5;
-  display: inline-block;  
+  display: inline-block;
   border-radius: 20px;
   margin: 30px 10px;
   padding: 10px;

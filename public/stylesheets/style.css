@@ -8,6 +8,7 @@ body{
   width: 100vw;
   background-color: #fff;
   padding: 20px;
+  max-width: 100%;
 
 }
 
@@ -33,7 +34,7 @@ button:hover {
 /* Style for nav */
 nav {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   background-color: #7f6f7e;
   padding: 15px 30px;
