@@ -15,7 +15,7 @@ exports.profile_edit_get = async (req, res) => {
 }
 
 exports.profile_edit_put = async (req, res) => {
-  let imageBase64 = null
+  let imageBase64 = User.avatar
   if (req.file) {
     imageBase64 = req.file.buffer.toString("base64")
   }
