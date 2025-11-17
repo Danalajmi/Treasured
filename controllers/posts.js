@@ -44,7 +44,7 @@ exports.post_show_get = async (req, res) => {
   const userHasLiked = post.likedBy.some((user) => user.equals(req.session.user._id))
 
   const postCommentsOG = await Comment.find({postID: req.params.postId,}).populate('postID').populate('userID')
-
+  
   // reverse comments so that it shows new ones at the top
   const postComments = postCommentsOG.toReversed()
   res.render("posts/show.ejs", { post, userHasLiked, postComments })

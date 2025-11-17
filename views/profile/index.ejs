@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
-    <link rel="stylesheet" href="/stylesheets/home.css">
+    <link rel="stylesheet" href="/stylesheets/profile.css">
 </head>
 <body>
     <header>
@@ -13,13 +13,11 @@
     </header>
 
     <main>
-        <% if (myPosts.length) { %>
-        <% if(myPosts[0].creator._id.equals(user._id)){ %>
+        <% if(userProfile._id.equals(user._id)){ %>
             <a href="/users/profile/<%= userProfile._id %>/edit">Edit profile</a>
         <section>
             <% } %>
-            <% } %>
-            <img src="data:image/jpeg;base64,<%= userProfile.avatar %>" alt="profile picture" class="profile-avatar">
+            <img src="<%= userProfile.avatar %>" alt="profile picture" class="profile-avatar">
         </section>
 
 
