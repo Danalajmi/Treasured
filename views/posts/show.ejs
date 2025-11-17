@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/stylesheets/showEdit.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/stylesheets/showEdit.css" />
   <title><%= post.title %></title>
 </head>
 <body>
@@ -39,13 +40,13 @@
             <%if (userHasLiked) { %>
             <form action="/posts/<%= post._id %>/likes/<%= user._id %>?_method=DELETE" method="POST">
               <button class="round-btn like-btn liked" type="submit">
-                <span class="heart-icon"></span> Unlike
+                <span class="heart-icon"><i class="fa fa-heart" style="font-size:24px;color:#fe7979;"></i></span> Unlike
               </button>
             </form>
             <% } else { %>
             <form action="/posts/<%= post._id %>/likes/<%= user._id %>" method="POST">
               <button class="round-btn like-btn" type="submit">
-                <span class="heart-icon"></span>Like
+                <span class="heart-icon"><i class="fa fa-heart" style="font-size:24px;color:white;"></i></span>Like
               </button>
             </form>
             <% } %>
@@ -57,7 +58,7 @@
 
       <div class="comments-container">
         <a class="round-btn comment-btn" href="/posts/<%= post._id %>/comments">
-          <span class="comment-icon"></span>
+          <span class="comment-icon"><i class="fa fa-commenting" style="font-size:24px;color:white;"></i></span>
           <%= post.comments ? post.comments.length : 0 %> Comments
         </a>
       </div>
