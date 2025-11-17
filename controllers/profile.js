@@ -2,11 +2,11 @@ const Post = require("../models/post")
 const User = require("../models/user")
 
 exports.profile_index_get = async (req, res) => {
-  const user = await User.findById(req.params.userID)
+  const userProfile = await User.findById(req.params.userID)
   const myPostsOG = await Post.find({ creator: req.params.userID }).populate("creator")
   const postCount = myPostsOG.length
   const myPosts = myPostsOG.toReversed()
-  res.render("profile/index.ejs", { myPosts, postCount, user })
+  res.render("profile/index.ejs", { myPosts, postCount, userProfile })
 }
 
 exports.profile_edit_get = async (req, res) => {
@@ -23,3 +23,4 @@ exports.profile_edit_put = async (req, res) => {
     await User.findByIdAndUpdate(req.params.userID, req.body)
   res.redirect(`/users/profile/${req.params.userID}`)
 }
+

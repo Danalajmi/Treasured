@@ -15,25 +15,24 @@
     <main>
         <% if (myPosts.length) { %>
         <% if(myPosts[0].creator._id.equals(user._id)){ %>
-            <a href="/users/profile/<%= user._id %>/edit">Edit profile</a>
+            <a href="/users/profile/<%= userProfile._id %>/edit">Edit profile</a>
         <section>
             <% } %>
             <% } %>
-            <img src="data:image/jpeg;base64,<%= user.avatar %>" alt="profile picture" class="profile-avatar">
+            <img src="data:image/jpeg;base64,<%= userProfile.avatar %>" alt="profile picture" class="profile-avatar">
         </section>
 
 
 
         <section class="profile-info">
-            <h2>Profile Information</h2>
-            <p><strong>Username:</strong> <%= user.username %></p>
+            <p><strong>Username:</strong> <%= userProfile.username %></p>
         </section>
 
         <section class="profile-bio">
 
             <p>
-                <% if (user.bio) { %>
-                    <%= user.bio %>
+                <% if (userProfile.bio) { %>
+                    <%= userProfile.bio %>
                     <% } else { %>
                         No bio yet.
                         <% } %>
