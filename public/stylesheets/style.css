@@ -68,3 +68,8 @@ nav .nav-links {
   align-items: center;
 }
 
+
+.profile-avatar{
+  max-width: 450px;
+
+}

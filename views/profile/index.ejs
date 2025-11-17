@@ -5,21 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/home.css">
 </head>
 <body>
     <header>
-        <h1>Welcome, <%= user.username %>!</h1>
         <%- include('../partials/_navbar.ejs') %>
+        <h1>Welcome, <%= user.username %>!</h1>
     </header>
 
     <main>
+        <% if (myPosts.length) { %>
+        <% if(myPosts[0].creator._id.equals(user._id)){ %>
+            <a href="/users/profile/<%= user._id %>/edit">Edit profile</a>
         <section>
-            <img
-            src="<%= user.avatar || '/Assets/Images/default-avatar.png' %>"
-            alt="profile picture"
-            class="profile-avatar"
-            >
+            <% } %>
+            <% } %>
+            <img src="data:image/jpeg;base64,<%= user.avatar %>" alt="profile picture" class="profile-avatar">
         </section>
+
+
 
         <section class="profile-info">
             <h2>Profile Information</h2>
@@ -27,7 +31,7 @@
         </section>
 
         <section class="profile-bio">
-            <h2>Bio</h2>
+
             <p>
                 <% if (user.bio) { %>
                     <%= user.bio %>
@@ -46,7 +50,7 @@
 
 
     <div class="post-container">
-    <% if (myPosts.length === 0) { %>
+    <% if (!myPosts.length) { %>
     <p>No posts yet.</p>
     <% } else { %>
 
