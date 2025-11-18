@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/profile.css">
+</head>
+<body class="profile-page">
+    <header>
+        <%- include('../partials/_navbar.ejs') %>
+    </header>
+
+    <main class="profile-main">
+        <section class="profile-card">
+            <div class="profile-card-header">
+                <div class="profile-avatar-wrapper">
+                    <img src="<%= userProfile.avatar %>" alt="profile picture" class="profile-avatar">
+                </div>
+                <div class="profile-header-text">
+                    <h1 class="profile-username"><%= userProfile.username %></h1>
+                    <% if(userProfile._id.equals(user._id)){ %>
+                        <a href="/users/profile/<%= userProfile._id %>/edit" class="profile-edit-btn">Edit profile</a>
+                    <% } %>
+                </div>
+            </div>
+
+            <section class="profile-bio">
+                <h2>About</h2>
+                <p>
+                    <% if (userProfile.bio) { %>
+                        <%= userProfile.bio %>
+                    <% } else { %>
+                        No bio yet.
+                    <% } %>
+                </p>
+            </section>
+
+            <section class="profile-stats">
+                <h2>Cards</h2>
+                <p><strong>Cards created:</strong> <%= postCount %></p>
+            </section>
+        </section>
+    </main>
+
+    <section class="profile-posts">
+        <div class="profile-posts-header">
+            <h2>Cards by <%= userProfile.username %></h2>
+        </div>
+
+        <div class="post-container">
+            <% if (!myPosts.length) { %>
+                <p>No posts yet.</p>
+            <% } else { %>
+                <% myPosts.forEach(post => { %>
+                    <a href="/posts/<%= post._id %>" class="post-card-link">
+                        <div class="post-card">
+                            <span class="post-category"><%= post.category %></span>
+
+                            <% if (post.image) { %>
+                                <img
+                                    src="data:image/jpeg;base64,<%= post.image %>"
+                                    alt="<%= post.title %>"
+                                    class="post-image"
+                                >
+                            <% } %>
+
+                            <div class="post-content">
+                                <div class="post-header">
+                                    <h3 class="post-title"><%= post.title %></h3>
+                                </div>
+
+                                <% if (post.description) { %>
+                                    <p><%= post.description %></p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </a>
+                <% }) %>
+            <% } %>
+        </div>
+    </section>
+</body>
+</html>

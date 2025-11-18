@@ -7,7 +7,7 @@ const upload = multer()
 
 router.get("/", postCtrl.post_index_get)
 router.get("/new", postCtrl.post_create_get)
-router.post("/", postCtrl.post_create_post)
+router.post("/",upload.single("image"), postCtrl.post_create_post)
 
 router.get("/:postId", postCtrl.post_show_get)
 router.get("/:postId/edit", postCtrl.post_edit_get)

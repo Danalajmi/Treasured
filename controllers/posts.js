@@ -4,10 +4,13 @@ const Post = require("../models/post")
 const multer = require("multer")
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
-
+const Comment = require("../models/comment")
 // Show all posts
 exports.post_index_get = async (req, res) => {
-  const posts = await Post.find()
+  const postsOG = await Post.find()
+
+  // Reverse array so new posts are above
+  const posts = postsOG.toReversed()
   res.render("posts/index.ejs", { posts })
 }
 
@@ -17,36 +20,34 @@ exports.post_create_get = async (req, res) => {
 }
 
 // Create a new post for image
-exports.post_create_post = [
-  upload.single("image"), // handles the uploaded file
-  async (req, res) => {
+exports.post_create_post = async (req, res) => {
     let imageBase64 = null
     if (req.file) {
       imageBase64 = req.file.buffer.toString("base64")
     }
-    console.log(req.session.user._id);
     await Post.create({
       title: req.body.title,
       description: req.body.description,
       category: req.body.category.toLowerCase(),
+      url: req.body.Url,
       image: imageBase64,
       creator: req.session.user._id,
     })
 
     res.redirect("/posts")
-  },
-];
-
-
-
+  }
 
 // Show post
 exports.post_show_get = async (req, res) => {
   const post = await Post.findById(req.params.postId).populate("creator")
-  const userHasLiked = post.likedBy.some((user) =>
-    user.equals(req.session.user._id)
-  )
-  res.render("posts/show.ejs", { post, userHasLiked })
+
+  const userHasLiked = post.likedBy.some((user) => user.equals(req.session.user._id))
+
+  const postCommentsOG = await Comment.find({postID: req.params.postId,}).populate('postID').populate('userID')
+  
+  // reverse comments so that it shows new ones at the top
+  const postComments = postCommentsOG.toReversed()
+  res.render("posts/show.ejs", { post, userHasLiked, postComments })
 }
 
 // Edit post
