@@ -7,64 +7,48 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/profile.css">
 </head>
-<body class="profile-page">
-    <header>
+<body>
         <%- include('../partials/_navbar.ejs') %>
-    </header>
 
-    <main class="profile-main">
-        <section class="profile-card">
-            <div class="profile-card-header">
-                <div class="profile-avatar-wrapper">
-                    <img src="<%= userProfile.avatar %>" alt="profile picture" class="profile-avatar">
-                </div>
-                <div class="profile-header-text">
-                    <h1 class="profile-username"><%= userProfile.username %></h1>
-                    <% if(userProfile._id.equals(user._id)){ %>
-                        <a href="/users/profile/<%= userProfile._id %>/edit" class="profile-edit-btn">Edit profile</a>
-                    <% } %>
-                </div>
-            </div>
 
-            <section class="profile-bio">
-                <h2>About</h2>
-                <p>
-                    <% if (userProfile.bio) { %>
-                        <%= userProfile.bio %>
+            <div class="profile-info">
+            <img src="<%= userProfile.avatar %>" alt="profile picture" class="profile-avatar">
+            <div class="profile-data">
+            <strong><%= userProfile.username %></strong>
+            <div class="profile-bio">
+            <p>
+                <% if (userProfile.bio) { %>
+                    <%= userProfile.bio %>
                     <% } else { %>
                         No bio yet.
-                    <% } %>
-                </p>
-            </section>
+                        <% } %>
+            </p>
+        </div>
+            </div>
 
-            <section class="profile-stats">
-                <h2>Cards</h2>
-                <p><strong>Cards created:</strong> <%= postCount %></p>
-            </section>
-        </section>
-    </main>
+        </div>
+        <div class="profile-stats">
+            <h2><%= postCount %> Cards</h2>
+
+        </div>
 
     <section class="profile-posts">
         <div class="profile-posts-header">
             <h2>Cards by <%= userProfile.username %></h2>
         </div>
 
-        <div class="post-container">
-            <% if (!myPosts.length) { %>
-                <p>No posts yet.</p>
-            <% } else { %>
-                <% myPosts.forEach(post => { %>
-                    <a href="/posts/<%= post._id %>" class="post-card-link">
-                        <div class="post-card">
-                            <span class="post-category"><%= post.category %></span>
+    <div class="post-container">
 
-                            <% if (post.image) { %>
-                                <img
-                                    src="data:image/jpeg;base64,<%= post.image %>"
-                                    alt="<%= post.title %>"
-                                    class="post-image"
-                                >
-                            <% } %>
+    <% if (!myPosts.length) { %>
+    <p>No posts yet.</p>
+
+    <% } else { %>
+    <% myPosts.forEach(post => { %>
+        <a href="/posts/<%= post._id %>" class="post-card-link">
+        <div class="post-card">
+            <br>
+            <span class="post-category"><%= post.category %></span>
+            <br><br>
 
                             <div class="post-content">
                                 <div class="post-header">
@@ -80,6 +64,17 @@
                 <% }) %>
             <% } %>
         </div>
-    </section>
+    <% }) %>
+    <% } %>
+    <div class="edit-profile">
+        <% if(userProfile._id.equals(user._id)){ %>
+            <button>
+                <a href="/users/profile/<%= userProfile._id %>/edit">Edit profile</a>
+            </button>
+
+            <% } %>
+    </div>
+
+    </div>
 </body>
 </html>
