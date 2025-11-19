@@ -33,7 +33,7 @@ mongoose.connection.on("connected", () => {
   console.log(`connected to mongoDB ${mongoose.connection.name}.`)
 })
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride("_method"))
 app.use(morgan("dev"))
 app.use(express.static(path.join(__dirname, "public")))

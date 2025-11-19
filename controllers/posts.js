@@ -44,7 +44,7 @@ exports.post_show_get = async (req, res) => {
   const userHasLiked = post.likedBy.some((user) => user.equals(req.session.user._id))
 
   const postCommentsOG = await Comment.find({postID: req.params.postId,}).populate('postID').populate('userID')
-  
+
   // reverse comments so that it shows new ones at the top
   const postComments = postCommentsOG.toReversed()
   res.render("posts/show.ejs", { post, userHasLiked, postComments })
@@ -57,14 +57,34 @@ exports.post_edit_get = async (req, res) => {
 }
 
 // Update the post
+// exports.post_update_put = async (req, res) => {
+//   const currentPost = await Post.findById(req.params.postId)
+//   if (currentPost.creator.equals(req.session.user._id)) {
+//     await currentPost.updateOne(req.body)
+//     res.redirect("/posts")
+//   } else {
+//     res.send("You can't do that silly :)")
+//   }
+// }
+
 exports.post_update_put = async (req, res) => {
-  const currentPost = await Post.findById(req.params.postId)
-  if (currentPost.creator.equals(req.session.user._id)) {
-    await currentPost.updateOne(req.body)
-    res.redirect("/posts")
-  } else {
-    res.send("You can't do that silly :)")
+  const currentPost = await Post.findById(req.params.postId);
+
+  if (!currentPost.creator.equals(req.session.user._id)){
+    return res.send("You can't do that silly :)");
   }
+
+  currentPost.title = req.body.title;
+  currentPost.description = req.body.description;
+  currentPost.category = req.body.category;
+  currentPost.url = req.body.url;
+
+  if (req.file) {
+    currentPost.image = req.file.buffer.toString("base64");
+  }
+
+  await currentPost.save();
+  res.redirect(`/posts/${currentPost._id}`);
 }
 
 // Delete post
