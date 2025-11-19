@@ -20,6 +20,7 @@
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
 .show-img img {
@@ -27,6 +28,21 @@
   max-height: 100%;
   object-fit: cover;
 }
+
+/*category imgage*/
+.show-cat-img {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 2;
+}
+
+.show-cat-img img {
+  width: 90px;
+  height: auto;
+  display: block;
+}
+
 
 .show-info-container {
   display: flex;

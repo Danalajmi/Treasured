@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,9 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <link rel="stylesheet" href="/stylesheets/home.css" />
 </head>
+
 <body>
-    <%- include('../partials/_navbar.ejs') %>
+  <%- include('../partials/_navbar.ejs') %>
 
   <button class="post-btn">
     <a href="/posts/new">+ Add New Post</a>
@@ -16,55 +18,50 @@
 
   <div class="post-container">
     <% if (posts.length === 0) { %>
-      <p>No posts yet.</p>
+    <p>No posts yet.</p>
     <% } else { %>
 
-      <% posts.forEach(post => { %>
-        <a href="/posts/<%= post._id %>" class="post-card-link">
-          <div class="post-card">
-            <br>
-            <div class="cat-img">
-                          <% if (post.category === 'food') { %>
-  <img src="/Assets/Images/Category/food.png" alt="food">
-<% } else if (post.category === 'songs') { %>
-  <img src="/Assets/Images/Category/song.png" alt="songs">
-<% } else if (post.category === 'movies') { %>
-  <img src="/Assets/Images/Category/movie.png" alt="movies">
-<% } else if (post.category === 'pets') { %>
-  <img src="/Assets/Images/Category/pet.png" alt="pets">
-<% } else if (post.category === 'moment') { %>
-  <img src="/Assets/Images/Category/moment.png" alt="moment">
-<% } else if (post.category === 'quote') { %>
-  <img src="/Assets/Images/Category/quote.png" alt="quote">
-<% } else if (post.category === 'spot') { %>
-  <img src="/Assets/Images/Category/spot.png" alt="spot">
-<% } else if (post.category === 'shows') { %>
-  <img src="/Assets/Images/Category/show.png" alt="shows">
-<% } %>
-            </div>
-            <br>
+    <% posts.forEach(post => { %>
+    <a href="/posts/<%= post._id %>" class="post-card-link">
+      <div class="post-card">
+        <div class="cat-img">
+          <% if (post.category === 'food') { %>
+          <img src="/Assets/Images/Category/food.png" alt="food">
+          <% } else if (post.category === 'songs') { %>
+          <img src="/Assets/Images/Category/song.png" alt="songs">
+          <% } else if (post.category === 'movies') { %>
+          <img src="/Assets/Images/Category/movie.png" alt="movies">
+          <% } else if (post.category === 'pets') { %>
+          <img src="/Assets/Images/Category/pet.png" alt="pets">
+          <% } else if (post.category === 'moment') { %>
+          <img src="/Assets/Images/Category/moment.png" alt="moment">
+          <% } else if (post.category === 'quote') { %>
+          <img src="/Assets/Images/Category/quote.png" alt="quote">
+          <% } else if (post.category === 'spot') { %>
+          <img src="/Assets/Images/Category/spot.png" alt="spot">
+          <% } else if (post.category === 'shows') { %>
+          <img src="/Assets/Images/Category/show.png" alt="shows">
+          <% } %>
+        </div>
 
-            <% if (post.image) { %>
-              <img
-                src="data:image/jpeg;base64,<%= post.image %>"
-                alt="<%= post.title %>"
-                class="post-image"
-              >
-            <% } %>
+        <% if (post.image) { %>
+        <img src="data:image/jpeg;base64,<%= post.image %>" alt="<%= post.title %>" class="post-image">
+        <% } %>
 
-            <div class="post-content">
-              <div class="post-header">
-                <h2 class="post-title"><%= post.title %></h2>
-              </div>
-
-              <% if (post.description) { %>
-                <p><%= post.description %></p>
-              <% } %>
-            </div>
+        <div class="post-content">
+          <div class="post-header">
+            <h2 class="post-title"><%= post.title %></h2>
           </div>
-        </a>
-      <% }) %>
+
+          <% if (post.description) { %>
+          <p><%= post.description %></p>
+          <% } %>
+        </div>
+      </div>
+    </a>
+    <% }) %>
     <% } %>
   </div>
 </body>
+
 </html>
