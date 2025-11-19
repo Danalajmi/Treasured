@@ -16,6 +16,7 @@
 
       <form action="/posts/<%= post._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
         <div class="form-row">
+
           <label for="title">Title</label>
           <input type="text" name="title" id="title" value="<%= post.title %>" required />
         </div>
@@ -23,17 +24,16 @@
         <div class="form-row">
           <label for="category">Category</label>
           <select name="category" id="category" required>
-
-    <option value="">Select category</option>
-    <option value="songs"  <%= post.category === 'songs'  ? 'selected' : '' %>>Songs</option>
-    <option value="movies" <%= post.category === 'movies' ? 'selected' : '' %>>Movies</option>
-    <option value="pets"   <%= post.category === 'pets'   ? 'selected' : '' %>>Pets</option>
-    <option value="moment" <%= post.category === 'moment' ? 'selected' : '' %>>Moment</option>
-    <option value="food"   <%= post.category === 'food'   ? 'selected' : '' %>>Food</option>
-    <option value="quote"  <%= post.category === 'quote'  ? 'selected' : '' %>>Quote</option>
-    <option value="shows"  <%= post.category === 'shows'  ? 'selected' : '' %>>Shows</option>
-    <option value="spot"   <%= post.category === 'spot'   ? 'selected' : '' %>>Spot</option>
-  </select>
+            <option value="">Select category</option>
+            <option value="songs" <%= post.category === 'songs' ? 'selected' : '' %>>Songs</option>
+            <option value="pets" <%= post.category === 'pets' ? 'selected' : '' %>>Pets</option>
+            <option value="moment" <%= post.category === 'moment' ? 'selected' : '' %>>Moment</option>
+            <option value="food" <%= post.category === 'food' ? 'selected' : '' %>>Food</option>
+            <option value="quote" <%= post.category === 'quote' ? 'selected' : '' %>>Quote</option>
+            <option value="movies" <%= post.category === 'movies' ? 'selected' : '' %>>Movies</option>
+            <option value="spot" <%= post.category === 'spot' ? 'selected' : '' %>>Spot</option>
+            <option value="show" <%= post.category === 'shows' ? 'selected' : '' %>>Show</option>
+          </select>
         </div>
 
         <div class="form-row">
@@ -42,8 +42,8 @@
         </div>
 
         <div class="form-row">
-          <label for="link">Link (optional)</label>
-          <input type="text" name="link" id="link" value="<%= post.link %>" />
+          <label for="url">Url (optional)</label>
+          <input type="url" name="url" id="url" value="<%= post.url %>" />
         </div>
 
         <div class="form-row">

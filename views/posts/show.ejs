@@ -1,106 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/stylesheets/style.css">
-<link rel="stylesheet" href="/stylesheets/showEdit.css" />
-  <title><%= post.title %></title>
-</head>
-<body>
-  <%- include('../partials/_navbar.ejs') %>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/showEdit.css" />
+    <title><%= post.title %></title>
+  </head>
+  <body>
+    <%- include('../partials/_navbar.ejs') %>
 
-  <div class= "show-page-container">
-    <% if (post.category !== 'quote' && post.image) { %>
+    <div class="show-page-container">
+      <% if (post.category !== 'quote' && post.image) { %>
       <div class="show-img">
-        <img src="data:image/jpeg;base64,<%= post.image %>"  alt="<%= post.title %>"/>
-      </div>
-    <% } %>
-
-    <div class= "show-info-container">
-      <div class="show-header">
-        <h1><%= post.title %></h1>
-        <h3>Category: <%= post.category %></h3>
-      </div>
-
-      <div class= "show-details-container">
-        <h3>By:
-          <a href="/users/profile/<%= post.creator._id %>"><%= post.creator.username %></a>
-
-        </h3>
-        <p> <%= post.description %></p>
-        <p><a href="<%= post.url %>">Link</a></p>
-      </div>
-
-      <div class="likes-container">
-        <div class="likes-count">
-          <h3> <%= post.likedBy.length %> Likes</h3>
+        <!-- Category icon on top-right of the image -->
+        <div class="show-cat-img">
+          <% if (post.category === 'food') { %>
+          <img src="/Assets/Images/Category/food.png" alt="food" />
+          <% } else if (post.category === 'songs') { %>
+          <img src="/Assets/Images/Category/song.png" alt="songs" />
+          <% } else if (post.category === 'movies') { %>
+          <img src="/Assets/Images/Category/movie.png" alt="movies" />
+          <% } else if (post.category === 'pets') { %>
+          <img src="/Assets/Images/Category/pet.png" alt="pets" />
+          <% } else if (post.category === 'moment') { %>
+          <img src="/Assets/Images/Category/moment.png" alt="moment" />
+          <% } else if (post.category === 'quote') { %>
+          <img src="/Assets/Images/Category/quote.png" alt="quote" />
+          <% } else if (post.category === 'spot') { %>
+          <img src="/Assets/Images/Category/spot.png" alt="spot" />
+          <% } else if (post.category === 'shows') { %>
+          <img src="/Assets/Images/Category/show.png" alt="shows" />
+          <% } %>
         </div>
 
-        <% if (user) { %>
+        <!-- Main post image -->
+        <img
+          src="data:image/jpeg;base64,<%= post.image %>"
+          alt="<%= post.title %>"
+        />
+      </div>
+      <% } %>
+
+      <div class="show-info-container">
+        <div class="show-header">
+          <h1><%= post.title %></h1>
+          <h3>Category: <%= post.category %></h3>
+        </div>
+
+        <div class="show-details-container">
+          <h3>
+            By:
+            <a href="/users/profile/<%= post.creator._id %>"
+              ><%= post.creator.username %></a
+            >
+          </h3>
+          <p><%= post.description %></p>
+          <p><a href="<%= post.url %>">Link</a></p>
+        </div>
+
+        <div class="likes-container">
+          <div class="likes-count">
+            <h3><%= post.likedBy.length %> Likes</h3>
+          </div>
+
+          <% if (user) { %>
           <div class="like-btn-container">
             <%if (userHasLiked) { %>
-            <form action="/posts/<%= post._id %>/likes/<%= user._id %>?_method=DELETE" method="POST">
+            <form
+              action="/posts/<%= post._id %>/likes/<%= user._id %>?_method=DELETE"
+              method="POST"
+            >
               <button class="round-btn like-btn liked" type="submit">
                 <span class="heart-icon">💔</span> Unlike
               </button>
             </form>
             <% } else { %>
-            <form action="/posts/<%= post._id %>/likes/<%= user._id %>" method="POST">
+            <form
+              action="/posts/<%= post._id %>/likes/<%= user._id %>"
+              method="POST"
+            >
               <button class="round-btn like-btn" type="submit">
-                          <span class="heart-icon">🤍</span>Like
+                <span class="heart-icon">🤍</span>Like
               </button>
             </form>
             <% } %>
           </div>
-        <% } else { %>
+          <% } else { %>
           <p>Log in to like this post.</p>
-        <% } %>
-      </div>
-
-      <div class="comments-container">
-          <form action="/posts/<%= post._id %>/comments" method="POST">
-    <input type="text" name="description" id="description" class="comment-input" placeholder="Write a comment">
-    <button type="submit" class="comment-btn">Add comment</button>
-    </form>
-
-
-    <div class="comments-list">
-    <% postComments.forEach(comment => { %>
-      <div class="comment-card">
-
-        <div class="comment-header">
-          <h5 class="comment-author"><%= comment.userID.username %></h5>
+          <% } %>
         </div>
 
-        <p class="comment-text">
-          <%= comment.description %>
-        </p>
-
-
-        <% if(comment.userID._id.equals(user._id)) { %>
-          <form
-            action="/posts/<%= comment.postID._id %>/comments/<%= comment._id %>?_method=DELETE"
-            method="POST"
-            class="delete-comment-form"
-          >
-            <button type="submit" class="delete-comment-btn">Delete</button>
+        <div class="comments-container">
+          <form action="/posts/<%= post._id %>/comments" method="POST">
+            <input
+              type="text"
+              name="description"
+              id="description"
+              class="comment-input"
+              placeholder="Write a comment"
+            />
+            <button type="submit" class="comment-btn">Add comment</button>
           </form>
-        <% } %>
-    </div>
-  <% }); %>
 
+          <div class="comments-list">
+            <% postComments.forEach(comment => { %>
+            <div class="comment-card">
+              <div class="comment-header">
+                <h5 class="comment-author"><%= comment.userID.username %></h5>
+              </div>
+
+              <p class="comment-text"><%= comment.description %></p>
+
+              <% if(comment.userID._id.equals(user._id)) { %>
+              <form
+                action="/posts/<%= comment.postID._id %>/comments/<%= comment._id %>?_method=DELETE"
+                method="POST"
+                class="delete-comment-form"
+              >
+                <button type="submit" class="delete-comment-btn">Delete</button>
+              </form>
+              <% } %>
+            </div>
+            <% }); %>
           </div>
-      <% if (post.creator._id.equals(user._id)) { %>
-      <div class="creator-container">
-        <a href="/posts/<%= post._id %>/edit" class="round-btn edit-btn">✏️ Edit</a>
-        <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
-          <button type="submit" class="round-btn delete-btn">🗑️ Delete</button>
-        </form>
-      <% } %>
-      </div>
+          <% if (post.creator._id.equals(user._id)) { %>
+          <div class="creator-container">
+            <a href="/posts/<%= post._id %>/edit" class="round-btn edit-btn"
+              >✏️ Edit</a
+            >
+            <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+              <button type="submit" class="round-btn delete-btn">
+                🗑️ Delete
+              </button>
+            </form>
+            <% } %>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
